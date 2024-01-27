@@ -5,12 +5,12 @@ using System.Numerics;
 public partial class Tetris : Godot.TileMap
 
 {
-int currentTetronimo;
+int currentTetronimo, nextTetronimo;
 bool endRound;
-Vector2I currentLocation0, tetronimoPiece0;
-Vector2I currentLocation1, tetronimoPiece1;
-Vector2I currentLocation2, tetronimoPiece2;
-Vector2I currentLocation3, tetronimoPiece3;
+Vector2I currentLocation0, tetronimoPiece0, nextTetronimo0;
+Vector2I currentLocation1, tetronimoPiece1, nextTetronimo1;
+Vector2I currentLocation2, tetronimoPiece2, nextTetronimo2;
+Vector2I currentLocation3, tetronimoPiece3, nextTetronimo3;
 Vector2I tileSource = new Vector2I (0,0);
 double moveTimer;
 bool movementAllowed = true;
@@ -23,8 +23,10 @@ const int placedTileId = 7;
 
 	public override void _Ready()
 	{
-		var ScoreLabel = GetNode<Label>("Label");
-		ScoreLabel.Text = score.ToString();
+		Random rnd = new Random();
+		nextTetronimo = rnd.Next(0,placedTileId);
+		GenerateTetronimo();
+		nextTetronimo0 = new Vector2I(17,7);
 		NewTetronimo();
 	}
 
@@ -93,7 +95,7 @@ const int placedTileId = 7;
 		{
 		score += (clearedRows * 100);
 		GD.Print (score.ToString());
-		var ScoreLabel = GetNode<Label>("Label");
+		var ScoreLabel = GetNode<Label>("Score");
 		ScoreLabel.Text = score.ToString();
 		}
 
@@ -112,14 +114,33 @@ const int placedTileId = 7;
 
 	public void NewTetronimo()
 		{
-		Random rnd = new Random();
-		currentTetronimo = rnd.Next(0,5);
-		GenerateTetronimo();
-		currentLocation0 = new Vector2I(6,4);
+		SetCell(0, nextTetronimo0, -1, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo1, -1, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo2, -1, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo3, -1, tileSource,0);
+
+		currentTetronimo = nextTetronimo;
+
+		tetronimoPiece1 = nextTetronimo1;
+		tetronimoPiece2 = nextTetronimo2;
+		tetronimoPiece3 = nextTetronimo3;
+
+		currentLocation0 = new Vector2I(6,1);
 		currentLocation1 = currentLocation0 + tetronimoPiece1;
 		currentLocation2 = currentLocation0 + tetronimoPiece2;
 		currentLocation3 = currentLocation0 + tetronimoPiece3;
 
+		Random rnd = new Random();
+		nextTetronimo = rnd.Next(0,placedTileId);
+		GenerateTetronimo();
+
+		nextTetronimo0 = new Vector2I(17,7);
+
+		SetCell(0, nextTetronimo0, nextTetronimo, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo1, nextTetronimo, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo2, nextTetronimo, tileSource,0);
+		SetCell(0, nextTetronimo0+nextTetronimo3, nextTetronimo, tileSource,0);
+		
 		SetCell(0, currentLocation0, currentTetronimo, tileSource,0);
 		SetCell(0, currentLocation1, currentTetronimo, tileSource,0);
 		SetCell(0, currentLocation2, currentTetronimo, tileSource,0);
@@ -133,9 +154,11 @@ const int placedTileId = 7;
 		if (below0 >=placedTileId || below1 >=placedTileId || below2 >=placedTileId || below3 >=placedTileId)
 			{
 			var FailLabel =GetNode<Label>("Fail");
-			FailLabel.Text = "Fail";
-			var Timer = GetNode<Timer>("Timer");
-			Timer.Stop();
+			FailLabel.Text = "GAME OVER";
+			var FallTimer = GetNode<Timer>("Timer");
+			FallTimer.Stop();
+			var MoveTimer = GetNode<Timer>("Timer");
+			MoveTimer.Stop();
 			}
 	
 
@@ -143,8 +166,9 @@ const int placedTileId = 7;
 
 	public void GenerateTetronimo()
 		{
-			switch (currentTetronimo)
+			switch (nextTetronimo)
 			{
+/*
 			case 0:
 			tetronimoPiece1 = new Vector2I (0,-2);
 			tetronimoPiece2 = new Vector2I (0,-1);
@@ -152,28 +176,83 @@ const int placedTileId = 7;
 			break;
 
 			case 1:
-			tetronimoPiece1 = new Vector2I (0,-2);
-			tetronimoPiece2 = new Vector2I (0,-1);
-			tetronimoPiece3 = new Vector2I (1,0);
-			break;
-
-			case 2:
-			tetronimoPiece1 = new Vector2I (1,-1);
-			tetronimoPiece2 = new Vector2I (0,-1);
-			tetronimoPiece3 = new Vector2I (1,0);
-			break;
-
-			case 3:
-			tetronimoPiece1 = new Vector2I (-1,0);
+			tetronimoPiece1 = new Vector2I (0,-1);
 			tetronimoPiece2 = new Vector2I (0,1);
 			tetronimoPiece3 = new Vector2I (1,1);
 			break;
 
-			default:
-			tetronimoPiece1 = new Vector2I (0,-1);
-			tetronimoPiece2 = new Vector2I (-1,0);
+			case 2:
+			tetronimoPiece1 = new Vector2I (1,1);
+			tetronimoPiece2 = new Vector2I (0,1);
 			tetronimoPiece3 = new Vector2I (1,0);
 			break;
+
+			case 3:
+			tetronimoPiece1 = new Vector2I (-1,-1);
+			tetronimoPiece2 = new Vector2I (0,-1);
+			tetronimoPiece3 = new Vector2I (1,0);
+			break;
+			
+			case 4:
+			tetronimoPiece1 = new Vector2I (-1,0);
+			tetronimoPiece2 = new Vector2I (0,1);
+			tetronimoPiece3 = new Vector2I (1,0);
+			break;
+			
+			case 5:
+			tetronimoPiece1 = new Vector2I (-1,0);
+			tetronimoPiece2 = new Vector2I (0,-1);
+			tetronimoPiece3 = new Vector2I (1,-1);
+			break;
+
+			default:
+			tetronimoPiece1 = new Vector2I (0,-1);
+			tetronimoPiece2 = new Vector2I (0,1);
+			tetronimoPiece3 = new Vector2I (-1,1);
+			break;
+*/
+			case 0:
+			nextTetronimo1 = new Vector2I (0,-2);
+			nextTetronimo2 = new Vector2I (0,-1);
+			nextTetronimo3= new Vector2I (0,1);
+			break;
+
+			case 1:
+			nextTetronimo1 = new Vector2I (0,-1);
+			nextTetronimo2 = new Vector2I (0,1);
+			nextTetronimo3 = new Vector2I (1,1);
+			break;
+
+			case 2:
+			nextTetronimo1 = new Vector2I (1,1);
+			nextTetronimo2 = new Vector2I (0,1);
+			nextTetronimo3 = new Vector2I (1,0);
+			break;
+
+			case 3:
+			nextTetronimo1 = new Vector2I (-1,-1);
+			nextTetronimo2 = new Vector2I (0,-1);
+			nextTetronimo3 = new Vector2I (1,0);
+			break;
+			
+			case 4:
+			nextTetronimo1 = new Vector2I (-1,0);
+			nextTetronimo2 = new Vector2I (0,1);
+			nextTetronimo3 = new Vector2I (1,0);
+			break;
+			
+			case 5:
+			nextTetronimo1 = new Vector2I (-1,0);
+			nextTetronimo2 = new Vector2I (0,-1);
+			nextTetronimo3 = new Vector2I (1,-1);
+			break;
+
+			default:
+			nextTetronimo1 = new Vector2I (0,-1);
+			nextTetronimo2 = new Vector2I (0,1);
+			nextTetronimo3 = new Vector2I (-1,1);
+			break;
+
 
 			}
 		}
