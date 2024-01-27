@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy44503y4oj4b"]
+
+[ext_resource type="TileSet" uid="uid://cgv5vyqkd3q8n" path="res://Shapes/Piece_Tile.tres" id="1_trkc2"]
+
+[sub_resource type="ConcavePolygonShape2D" id="ConcavePolygonShape2D_4yhnp"]
+segments = PackedVector2Array(0, 0, 0, -40, 0, -40, 40, -40, 40, -40, 40, 0, 40, 0, 80, 0, 80, 0, 80, 40, 80, 40, -40, 40, -40, 40, -40, 0, -40, 0, 0, 0)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_trkc2")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65536, 0, 0, 0, 0, 0, 65535, 0, 0, 1, 0, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("ConcavePolygonShape2D_4yhnp")

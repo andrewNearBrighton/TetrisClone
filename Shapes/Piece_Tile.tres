@@ -1,0 +1,22 @@
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cgv5vyqkd3q8n"]
+
+[ext_resource type="Texture2D" uid="uid://c1rcr6q2x468d" path="res://Sprites/Sprite-0001.png" id="1_nrdbg"]
+[ext_resource type="PackedScene" uid="uid://cxypq0kdlx405" path="res://Shapes/SquarePiece.tscn" id="2_oe6xq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1tto"]
+texture = ExtResource("1_nrdbg")
+texture_region_size = Vector2i(40, 40)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_q6vme"]
+resource_name = "Square_Block"
+scenes/1/scene = ExtResource("2_oe6xq")
+
+[resource]
+tile_size = Vector2i(40, 40)
+sources/0 = SubResource("TileSetAtlasSource_g1tto")
+sources/1 = SubResource("TileSetScenesCollectionSource_q6vme")

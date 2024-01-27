@@ -1,0 +1,141 @@
+[gd_scene load_steps=26 format=3 uid="uid://dmypk4pygxif3"]
+
+[ext_resource type="Texture2D" uid="uid://b3xm4fd1de4u7" path="res://Sprites/Sprite-0002.png" id="1_2ryd2"]
+[ext_resource type="Script" path="res://Tetris.cs" id="1_5j7n8"]
+[ext_resource type="Texture2D" uid="uid://cwbpo1qgifou5" path="res://Sprites/Sprite I-tetronimo.png" id="1_bmsv7"]
+[ext_resource type="Texture2D" uid="uid://cm0qp74ap3uqm" path="res://Sprites/Sprite L-tetronimo.png" id="2_7ncg0"]
+[ext_resource type="Texture2D" uid="uid://cnunh2nftca" path="res://Sprites/Sprite O-tetronimo.png" id="3_1krn0"]
+[ext_resource type="Texture2D" uid="uid://y3874xyitfo8" path="res://Sprites/Sprite T-tetronimo.png" id="4_qn6ut"]
+[ext_resource type="Texture2D" uid="uid://b7jvag4d8385p" path="res://Sprites/Sprite Z-tetronimo.png" id="5_o2tc2"]
+[ext_resource type="Texture2D" uid="uid://c1rcr6q2x468d" path="res://Sprites/Sprite-0001.png" id="6_qj2ad"]
+[ext_resource type="Script" path="res://addons/midi/MidiPlayer.gd" id="11_ra55u"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ypfpt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_524rq"]
+size = Vector2(560, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydiud"]
+size = Vector2(560, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2too"]
+size = Vector2(80, 800)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vjgce"]
+texture = ExtResource("1_bmsv7")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_knibx"]
+texture = ExtResource("2_7ncg0")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gt21j"]
+texture = ExtResource("3_1krn0")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8p0xc"]
+texture = ExtResource("5_o2tc2")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4u5l6"]
+texture = ExtResource("4_qn6ut")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xkixd"]
+texture = ExtResource("6_qj2ad")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q0c4y"]
+texture = ExtResource("1_2ryd2")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_7sb2i"]
+
+[sub_resource type="TileSet" id="TileSet_w3flt"]
+tile_size = Vector2i(40, 40)
+sources/7 = SubResource("TileSetAtlasSource_xkixd")
+sources/8 = SubResource("TileSetAtlasSource_q0c4y")
+sources/9 = SubResource("TileSetScenesCollectionSource_7sb2i")
+sources/0 = SubResource("TileSetAtlasSource_vjgce")
+sources/1 = SubResource("TileSetAtlasSource_knibx")
+sources/2 = SubResource("TileSetAtlasSource_gt21j")
+sources/4 = SubResource("TileSetAtlasSource_4u5l6")
+sources/3 = SubResource("TileSetAtlasSource_8p0xc")
+
+[sub_resource type="SystemFont" id="SystemFont_orjux"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a02ur"]
+font = SubResource("SystemFont_orjux")
+font_size = 30
+outline_size = 2
+outline_color = Color(0.313726, 0, 0.00392157, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1jgpn"]
+font_size = 80
+font_color = Color(0.619608, 0, 0.0392157, 1)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Area2D2" type="Area2D" parent="."]
+material = SubResource("CanvasItemMaterial_ypfpt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(280, 40)
+shape = SubResource("RectangleShape2D_524rq")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(280, 920)
+shape = SubResource("RectangleShape2D_ydiud")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(40, 480)
+shape = SubResource("RectangleShape2D_j2too")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(520, 480)
+shape = SubResource("RectangleShape2D_j2too")
+
+[node name="TileMap" type="TileMap" parent="Area2D2"]
+position = Vector2(0, -1)
+tile_set = SubResource("TileSet_w3flt")
+rendering_quadrant_size = 40
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 8, 0, 1, 8, 0, 65537, 8, 0, 65536, 8, 0, 131072, 8, 0, 131073, 8, 0, 196608, 8, 0, 196609, 8, 0, 262145, 8, 0, 327681, 8, 0, 262144, 8, 0, 327680, 8, 0, 393216, 8, 0, 393217, 8, 0, 458753, 8, 0, 458752, 8, 0, 524288, 8, 0, 589824, 8, 0, 655360, 8, 0, 720896, 8, 0, 589825, 8, 0, 524289, 8, 0, 655361, 8, 0, 720897, 8, 0, 786432, 8, 0, 851968, 8, 0, 917504, 8, 0, 983040, 8, 0, 1048576, 8, 0, 1114112, 8, 0, 1179648, 8, 0, 1245184, 8, 0, 1310720, 8, 0, 1376256, 8, 0, 1441792, 8, 0, 1507328, 8, 0, 1507329, 8, 0, 1441793, 8, 0, 1376257, 8, 0, 1310721, 8, 0, 1245185, 8, 0, 1179649, 8, 0, 1114113, 8, 0, 1048577, 8, 0, 983041, 8, 0, 917505, 8, 0, 851969, 8, 0, 786433, 8, 0, 1441794, 8, 0, 1441795, 8, 0, 1441796, 8, 0, 1441797, 8, 0, 1441798, 8, 0, 1441799, 8, 0, 1441800, 8, 0, 1441801, 8, 0, 1441802, 8, 0, 1441803, 8, 0, 1441804, 8, 0, 1441805, 8, 0, 1507341, 8, 0, 1507340, 8, 0, 1507339, 8, 0, 1507338, 8, 0, 1507337, 8, 0, 1507336, 8, 0, 1507335, 8, 0, 1507334, 8, 0, 1507333, 8, 0, 1507332, 8, 0, 1507331, 8, 0, 1507330, 8, 0, 1376268, 8, 0, 1310732, 8, 0, 1245196, 8, 0, 1179660, 8, 0, 1114124, 8, 0, 1048588, 8, 0, 983052, 8, 0, 917516, 8, 0, 851980, 8, 0, 786444, 8, 0, 720908, 8, 0, 655372, 8, 0, 589836, 8, 0, 524300, 8, 0, 458764, 8, 0, 393228, 8, 0, 327692, 8, 0, 262156, 8, 0, 196620, 8, 0, 131084, 8, 0, 65548, 8, 0, 12, 8, 0, 13, 8, 0, 65549, 8, 0, 131085, 8, 0, 196621, 8, 0, 262157, 8, 0, 327693, 8, 0, 393229, 8, 0, 458765, 8, 0, 524301, 8, 0, 589837, 8, 0, 655373, 8, 0, 720909, 8, 0, 786445, 8, 0, 851981, 8, 0, 917517, 8, 0, 983053, 8, 0, 1048589, 8, 0, 1114125, 8, 0, 1179661, 8, 0, 1245197, 8, 0, 1310733, 8, 0, 1376269, 8, 0, 2, 8, 0, 3, 8, 0, 4, 8, 0, 5, 8, 0, 6, 8, 0, 7, 8, 0, 8, 8, 0, 9, 8, 0, 10, 8, 0, 11, 8, 0, 65547, 8, 0, 65546, 8, 0, 65545, 8, 0, 65544, 8, 0, 65543, 8, 0, 65542, 8, 0, 65541, 8, 0, 65540, 8, 0, 65539, 8, 0, 65538, 8, 0)
+script = ExtResource("1_5j7n8")
+
+[node name="Timer" type="Timer" parent="Area2D2/TileMap"]
+wait_time = 0.5
+autostart = true
+
+[node name="Label" type="Label" parent="Area2D2/TileMap"]
+offset_right = 160.0
+offset_bottom = 39.0
+label_settings = SubResource("LabelSettings_a02ur")
+
+[node name="Fail" type="Label" parent="Area2D2/TileMap"]
+offset_left = 81.0
+offset_top = 83.0
+offset_right = 479.0
+offset_bottom = 335.0
+label_settings = SubResource("LabelSettings_1jgpn")
+
+[node name="MidiPlayer" type="Node" parent="."]
+script = ExtResource("11_ra55u")
+file = "res://Tetris - A Theme.mid"
+playing = true
+loop = true
+soundfont = "res://Fox.sf2"
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="Area2D2/TileMap/Timer" to="Area2D2/TileMap" method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="Area2D2/TileMap" method="_on_timer_2_timeout"]
