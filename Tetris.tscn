@@ -139,6 +139,17 @@ label_settings = SubResource("LabelSettings_1jgpn")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Level" type="Label" parent="Area2D2/TileMap"]
+offset_left = 641.0
+offset_top = 721.0
+offset_right = 760.0
+offset_bottom = 759.0
+text = "1"
+vertical_alignment = 1
+
+[node name="Timer2" type="Timer" parent="Area2D2/TileMap"]
+wait_time = 0.3
+
 [node name="ScoreTitle" type="Label" parent="Area2D2"]
 offset_left = 640.0
 offset_top = 479.0
@@ -156,24 +167,12 @@ offset_bottom = 717.0
 text = "Level"
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="Area2D2"]
-offset_left = 641.0
-offset_top = 720.0
-offset_right = 760.0
-offset_bottom = 758.0
-text = "1"
-vertical_alignment = 1
-
 [node name="MidiPlayer" type="Node" parent="."]
 script = ExtResource("11_ra55u")
 file = "res://Tetris - A Theme.mid"
 playing = true
 loop = true
 soundfont = "res://Fox.sf2"
-
-[node name="Timer2" type="Timer" parent="."]
-wait_time = 0.3
-autostart = true
 
 [node name="TopCover" type="Sprite2D" parent="."]
 visible = false
@@ -182,4 +181,4 @@ scale = Vector2(1.395, 1)
 texture = ExtResource("13_04lnb")
 
 [connection signal="timeout" from="Area2D2/TileMap/Timer" to="Area2D2/TileMap" method="_on_timer_timeout"]
-[connection signal="timeout" from="Timer2" to="Area2D2/TileMap" method="_on_timer_2_timeout"]
+[connection signal="timeout" from="Area2D2/TileMap/Timer2" to="Area2D2/TileMap" method="_on_timer_2_timeout"]

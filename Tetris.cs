@@ -15,7 +15,9 @@ Vector2I tileSource = new Vector2I (0,0);
 double moveTimer;
 bool movementAllowed = true;
 int score = 0;
+int level =1;
 
+Timer inputTimer;
 const int placedTileId = 7;
 
 
@@ -28,6 +30,7 @@ const int placedTileId = 7;
 		GenerateTetronimo();
 		nextTetronimo0 = new Vector2I(17,7);
 		NewTetronimo();
+		inputTimer = GetNode<Timer>("Timer2");
 	}
 
 		private void _on_timer_timeout()
@@ -97,6 +100,10 @@ const int placedTileId = 7;
 		GD.Print (score.ToString());
 		var ScoreLabel = GetNode<Label>("Score");
 		ScoreLabel.Text = score.ToString();
+		level = (score / 1000)+1;
+		var LevelLabel = GetNode<Label>("Level");
+		LevelLabel.Text = level.ToString();
+		Engine.TimeScale = 1 + ((level-1)/5f);
 		}
 
 	public void ClearRow(int row)
@@ -159,6 +166,7 @@ const int placedTileId = 7;
 			FallTimer.Stop();
 			var MoveTimer = GetNode<Timer>("Timer");
 			MoveTimer.Stop();
+			inputTimer.Stop();
 			}
 	
 
@@ -306,6 +314,7 @@ const int placedTileId = 7;
 			SetCell(0, currentLocation2, currentTetronimo, tileSource,0);
 			SetCell(0, currentLocation3, currentTetronimo, tileSource,0);
 			movementAllowed = false;
+			inputTimer.Start();
 			}
 		}
 
@@ -332,6 +341,7 @@ const int placedTileId = 7;
 			SetCell(0, currentLocation2, currentTetronimo, tileSource,0);
 			SetCell(0, currentLocation3, currentTetronimo, tileSource,0);
 			movementAllowed = false;
+			inputTimer.Start();
 			}
 		}
 
@@ -389,6 +399,7 @@ const int placedTileId = 7;
 				SetCell(0, currentLocation3, currentTetronimo, tileSource,0);
 				
 				movementAllowed =false;
+				inputTimer.Start();
 				}
 /*			
 
